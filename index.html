@@ -11,6 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
         rel="stylesheet">
+    <link rel="preload" as="image" href="Assets/Hero%20Andr%C3%A9%20Siqueira.webp" media="(min-width: 992px)">
+    <link rel="preload" as="image" href="Assets/Hero%20Andr%C3%A9%20Siqueira%20DM.webp" media="(max-width: 991px)">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -21,8 +23,8 @@
 
         <!-- Imagem Dinâmica Mobile (Apenas Mobile) -->
         <div class="hero-mobile-img-wrapper d-md-none">
-            <img src="Assets/Hero%20Andr%C3%A9%20Siqueira%20DM.png" alt="Morumbi Topo da Cidade"
-                class="hero-mobile-img">
+            <img src="Assets/Hero%20Andr%C3%A9%20Siqueira%20DM.webp" alt="Morumbi Topo da Cidade"
+                class="hero-mobile-img" fetchpriority="high">
             <div class="hero-mobile-overlay"></div>
         </div>
 
@@ -93,7 +95,8 @@
     <section class="section authority-section">
         <div class="container authority-container">
             <div class="authority-image-wrapper">
-                <img src="Assets/Perfil%20Andr%C3%A9%20Siquiera.png" alt="André Siqueira" class="authority-image">
+                <img src="Assets/Perfil%20Andr%C3%A9%20Siquiera.webp" alt="André Siqueira" class="authority-image"
+                    loading="lazy">
                 <div class="experience-badge">
                     <strong>15+</strong>
                     <span>Anos de<br>Mercado</span>
@@ -250,7 +253,7 @@
                         </div>
                     </div>
 
-                    /* Clones for Infinite Loop */
+                    <!-- Clones for Infinite Loop -->
                     <div class="testimonial" aria-hidden="true">
                         <div class="quote-mark">"</div>
                         <p class="quote-text">Estávamos procurando há 6 meses e só víamos 'micor'. O André entendeu que

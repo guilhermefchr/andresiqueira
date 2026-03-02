@@ -296,7 +296,7 @@ img {
 
     display: flex;
     align-items: center;
-    background-image: url('Assets/Hero%20André%20Siqueira.png');
+    background-image: url('Assets/Hero%20André%20Siqueira.webp');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -789,13 +789,15 @@ img {
     gap: 3rem;
     width: max-content;
     /* Critical for continuous scroll to fit all items */
-    animation: scrollTestimonials 70s linear infinite;
+    will-change: transform;
+    cursor: grab;
 }
 
-/* Pause scroll on hover for readability */
-.testimonials-slider-container:hover .testimonials-track {
-    animation-play-state: paused;
+.testimonials-track:active {
+    cursor: grabbing;
 }
+
+/* Pause scroll on hover for readability (moved to JS logic for dragging sync) */
 
 /* Fixed width for testimonials inside the slider */
 .testimonials-track .testimonial {
