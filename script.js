@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         track.addEventListener('pointerdown', (e) => {
             isDown = true;
             startX = e.clientX;
-            cancelAnimationFrame(animationId);
             track.style.cursor = 'grabbing';
             track.style.userSelect = 'none'; // prevent text selection
             track.setPointerCapture(e.pointerId);

@@ -791,6 +791,7 @@ img {
     /* Critical for continuous scroll to fit all items */
     will-change: transform;
     cursor: grab;
+    touch-action: pan-y;
 }
 
 .testimonials-track:active {
