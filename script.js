@@ -73,6 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let prevTranslate = 0;
         let animationId;
 
+        let halfWidth = track.scrollWidth / 2;
+        window.addEventListener('resize', () => {
+            halfWidth = track.scrollWidth / 2;
+        });
+
         // Disable drag on links and images inside the slider
         track.querySelectorAll('img, a').forEach(el => el.addEventListener('dragstart', (e) => e.preventDefault()));
 
@@ -81,9 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Auto scrolling speed
                 currentTranslate -= 0.5;
             }
-
-            // Reached exactly half of the cloned elements length?
-            const halfWidth = track.scrollWidth / 2;
 
             // Loop boundaries logic
             if (Math.abs(currentTranslate) >= halfWidth) {
@@ -101,59 +103,43 @@ document.addEventListener("DOMContentLoaded", () => {
         // Start Loop
         animationId = requestAnimationFrame(loop);
 
-        // Mouse Events
-        track.addEventListener('mousedown', (e) => {
+        // Pointer Events for absolute uniform compatibility (Desktop + Touch)
+        track.addEventListener('pointerdown', (e) => {
             isDown = true;
-            startX = e.pageX;
+            startX = e.clientX;
             cancelAnimationFrame(animationId);
             track.style.cursor = 'grabbing';
             track.style.userSelect = 'none'; // prevent text selection
+            track.setPointerCapture(e.pointerId);
         });
 
-        track.addEventListener('mouseleave', () => {
+        track.addEventListener('pointermove', (e) => {
+            if (!isDown) return;
+            const x = e.clientX;
+            const walk = (x - startX) * 1.5; // Drag speed multiplier
+            currentTranslate = prevTranslate + walk;
+        });
+
+        track.addEventListener('pointerup', (e) => {
             if (isDown) {
                 isDown = false;
                 track.style.cursor = 'grab';
                 track.style.userSelect = 'auto';
+                track.releasePointerCapture(e.pointerId);
                 prevTranslate = currentTranslate;
                 animationId = requestAnimationFrame(loop);
             }
         });
 
-        track.addEventListener('mouseup', () => {
-            isDown = false;
-            track.style.cursor = 'grab';
-            track.style.userSelect = 'auto';
-            prevTranslate = currentTranslate;
-            animationId = requestAnimationFrame(loop);
-        });
-
-        track.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX;
-            const walk = (x - startX) * 1.5; // Drag speed multiplier
-            currentTranslate = prevTranslate + walk;
-        });
-
-        // Touch Events
-        track.addEventListener('touchstart', (e) => {
-            isDown = true;
-            startX = e.touches[0].pageX;
-            cancelAnimationFrame(animationId);
-        }, { passive: true });
-
-        track.addEventListener('touchmove', (e) => {
-            if (!isDown) return;
-            const x = e.touches[0].pageX;
-            const walk = (x - startX) * 1.5;
-            currentTranslate = prevTranslate + walk;
-        }, { passive: true });
-
-        track.addEventListener('touchend', () => {
-            isDown = false;
-            prevTranslate = currentTranslate;
-            animationId = requestAnimationFrame(loop);
+        track.addEventListener('pointercancel', (e) => {
+            if (isDown) {
+                isDown = false;
+                track.style.cursor = 'grab';
+                track.style.userSelect = 'auto';
+                track.releasePointerCapture(e.pointerId);
+                prevTranslate = currentTranslate;
+                animationId = requestAnimationFrame(loop);
+            }
         });
 
         // Pause auto-scroll when hovered for readability
